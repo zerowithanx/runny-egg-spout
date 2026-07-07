@@ -1,0 +1,17 @@
+name: spout merge
+on:
+  pull_request:
+    types: [opened, reopened, synchronized]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge-instantly:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Force Merge Immediately
+        run: gh pr merge "${{ github.event.pull_request.html_url }}" --merge --admin --delete-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
